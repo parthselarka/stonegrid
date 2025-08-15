@@ -11,4 +11,11 @@ const compat = new FlatCompat({
 
 const eslintConfig = [...compat.extends("next/core-web-vitals")];
 
+// Add this block to disable the rule globally:
+eslintConfig.push({
+  rules: {
+    "react/no-unescaped-entities": "off",
+  },
+});
+
 export default eslintConfig;
