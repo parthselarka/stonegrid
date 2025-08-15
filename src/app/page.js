@@ -324,7 +324,7 @@ export default function Home() {
               “We caught two missing checks before launch. Worth it.”
             </p>
             <footer className="mt-3 text-sm text-[rgb(75,85,99)]">
-              — Indie SaaS founder
+              — Nutrichef.app founder
             </footer>
           </blockquote>
           <blockquote className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-black/5">
@@ -332,7 +332,7 @@ export default function Home() {
               “It’s like having a mini security review in CI.”
             </p>
             <footer className="mt-3 text-sm text-[rgb(75,85,99)]">
-              — Next.js dev
+              — Next.js developer
             </footer>
           </blockquote>
         </div>
