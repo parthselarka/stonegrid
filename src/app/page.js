@@ -98,7 +98,7 @@ export default function Home() {
             className="opacity-0 translate-y-6 transition-all duration-700"
           >
             <h1 className="text-5xl sm:text-6xl md:text-7xl leading-[1.05] font-extrabold tracking-tight text-[rgb(16,44,112)] text-center lg:text-left">
-              Don&rsquo;t Let Someone Walk Through Your Paywall.
+              Don’t Let Someone Walk Through Your Paywall.
             </h1>
             <p className="mt-6 text-xl text-[rgb(55,65,81)] text-center lg:text-left">
               Catch broken authentication in your Supabase + Next.js app before
@@ -197,8 +197,7 @@ export default function Home() {
       {/* Problem */}
       <section className="mx-auto max-w-5xl px-6 py-24" data-animate>
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-[rgb(16,44,112)]">
-          Your app&rsquo;s biggest risk isn&rsquo;t a hacker — it&rsquo;s a
-          clever user.
+          Your app’s biggest risk isn’t a hacker — it’s a clever user.
         </h2>
         <p className="mt-4 text-center text-[rgb(55,65,81)]">
           Most paywalls aren’t hacked — they’re bypassed. One missing server
@@ -210,7 +209,7 @@ export default function Home() {
           <li>• Your revenue quietly slips away.</li>
         </ul>
         <p className="mt-4 text-center text-[rgb(75,85,99)]">
-          It&rsquo;s not “if” someone tries — it&rsquo;s when.
+          It’s not “if” someone tries — it’s when.
         </p>
       </section>
 
@@ -229,13 +228,11 @@ export default function Home() {
               free.
             </li>
             <li>• You spend days patching instead of building.</li>
-            <li>
-              • Trust erodes — and for a small dev, that&rsquo;s game over.
-            </li>
+            <li>• Trust erodes — and for a small dev, that’s game over.</li>
           </ul>
           <p className="text-[rgb(31,41,55)]">
-            Hiring a security consultant for this? $5,000+ per audit. And
-            you&rsquo;d need them after every major update.
+            Hiring a security consultant for this? $5,000+ per audit. And you’d
+            need them after every major update.
           </p>
         </div>
         <div className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-black/5">
@@ -267,7 +264,7 @@ export default function Home() {
         data-animate
       >
         <h2 className="text-3xl font-bold text-center text-[rgb(16,44,112)]">
-          Automatic Auth &amp; Paywall Testing — Every Time You Ship.
+          Automatic Auth & Paywall Testing — Every Time You Ship.
         </h2>
         <p className="mt-3 text-center text-[rgb(55,65,81)]">
           No setup. No jargon. Just clear “this is vulnerable” messages in your
@@ -309,7 +306,7 @@ export default function Home() {
       <section id="how" className="mx-auto max-w-5xl px-6 py-24" data-animate>
         <ol className="space-y-4 text-[rgb(55,65,81)]">
           <li>1) Install the VS Code extension or GitHub Action.</li>
-          <li>2) Select “Auth &amp; Paywall” mode.</li>
+          <li>2) Select “Auth & Paywall” mode.</li>
           <li>3) Ship only when every route is locked down.</li>
         </ol>
       </section>
@@ -330,7 +327,7 @@ export default function Home() {
           </blockquote>
           <blockquote className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-black/5">
             <p className="text-[rgb(31,41,55)]">
-              “It&rsquo;s like having a mini security review in CI.”
+              “It’s like having a mini security review in CI.”
             </p>
             <footer className="mt-3 text-sm text-[rgb(75,85,99)]">
               — Next.js dev
