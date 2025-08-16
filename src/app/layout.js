@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { APP_NAME } from "@/lib/constants";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
