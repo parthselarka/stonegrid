@@ -1,22 +1,92 @@
 "use client";
 /* eslint-disable react/no-unescaped-entities */
-
+import * as React from "react";
 import { useEffect, useState } from "react";
+import { Shield, Download, CheckCircle } from "lucide-react";
 import {
   CheckCircleIcon,
   ShieldCheckIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import { APP_NAME } from "@/lib/constants";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Typography from "@mui/material/Typography";
 
 function cx(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+const steps = [
+  {
+    label: "Sign in with your registered email",
+    description:
+      "Use the same email you signed up with on our website to connect your account securely.",
+    icon: <Shield size={20} />,
+  },
+  {
+    label: "Install the VS Code extension",
+    description:
+      "Download and enable the extension to integrate real-time security checks into your editor.",
+    icon: <Download size={20} />,
+  },
+  {
+    label: "Build confidently as your app is secured in real time",
+    description:
+      "As you code, the extension will automatically flag vulnerabilities so your paywall stays locked.",
+    icon: <CheckCircle size={20} />,
+  },
+];
 
 export default function Home() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [skipped, setSkipped] = React.useState(new Set());
+
+  const isStepOptional = (step) => {
+    return step === 1;
+  };
+
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
+
+  const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleSkip = () => {
+    if (!isStepOptional(activeStep)) {
+      // You probably want to guard against something like this,
+      // it should never occur unless someone's actively trying to break something.
+      throw new Error("You can't skip a step that isn't optional.");
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped((prevSkipped) => {
+      const newSkipped = new Set(prevSkipped.values());
+      newSkipped.add(activeStep);
+      return newSkipped;
+    });
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
   useEffect(() => {
     const reveal = () => {
@@ -71,15 +141,12 @@ export default function Home() {
           <div className="font-semibold tracking-tight text-[rgb(23,37,84)] text-lg sm:text-xl">
             {APP_NAME}
           </div>
-          <nav className="hidden md:flex items-center gap-8 text-sm">
+          <nav className="hidden md:flex items-center gap-8 text-m">
             <a className="hover:opacity-70 transition" href="#features">
               Features
             </a>
             <a className="hover:opacity-70 transition" href="#how">
               How it works
-            </a>
-            <a className="hover:opacity-70 transition" href="#testimonials">
-              Trust
             </a>
           </nav>
           <a
@@ -90,7 +157,6 @@ export default function Home() {
           </a>
         </div>
       </header>
-
       {/* Hero + Form */}
       <section className="relative">
         <div className="absolute inset-0 bg-gradient-to-b from-white to-[rgb(240,244,248)]" />
@@ -195,36 +261,35 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Problem */}
       <section className="mx-auto max-w-5xl px-6 py-24" data-animate>
-        <h2 className="text-2xl sm:text-3xl font-bold text-center text-[rgb(16,44,112)]">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center text-[rgb(16,44,112)]">
           Your app’s biggest risk isn’t a hacker — it’s a clever user.
         </h2>
-        <p className="mt-4 text-center text-[rgb(55,65,81)]">
+        <h2 className="mt-6 text-lg sm:text-xl text-center text-[rgb(55,65,81)]">
           Most paywalls aren’t hacked — they’re bypassed. One missing server
           check, one weak Supabase RLS rule, one exposed API route… and:
-        </p>
-        <ul className="mt-6 grid gap-3 text-center text-[rgb(31,41,55)]">
+        </h2>
+        <ul className="mt-8 grid gap-4 text-lg sm:text-xl text-center text-[rgb(31,41,55)]">
           <li>• Free users see premium content.</li>
           <li>• Non-paying accounts access paid features.</li>
           <li>• Your revenue quietly slips away.</li>
         </ul>
-        <p className="mt-4 text-center text-[rgb(75,85,99)]">
+        <p className="mt-6 text-lg sm:text-xl text-center text-[rgb(75,85,99)]">
           It’s not “if” someone tries — it’s when.
         </p>
       </section>
 
       {/* Risk */}
       <section
-        className="mx-auto max-w-6xl px-6 py-24 grid md:grid-cols-2 gap-14 items-center"
+        className="mx-auto max-w-6xl px-6 py-14 grid md:grid-cols-2 gap-14 items-center"
         data-animate
       >
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-[rgb(23,37,84)]">
+        <div>
+          <h3 className="text-2xl font-semibold text-[rgb(23,37,84)]">
             A paywall bypass is an open door to your product.
           </h3>
-          <ul className="space-y-2 text-[rgb(55,65,81)]">
+          <ul className="mt-4 space-y-3 text-[rgb(55,65,81)] text-lg">
             <li>
               • Paying customers notice non-payers getting the same features for
               free.
@@ -232,7 +297,7 @@ export default function Home() {
             <li>• You spend days patching instead of building.</li>
             <li>• Trust erodes — and for a small dev, that’s game over.</li>
           </ul>
-          <p className="text-[rgb(31,41,55)]">
+          <p className="mt-4 text-[rgb(31,41,55)] text-lg">
             Hiring a security consultant for this? $5,000+ per audit. And you’d
             need them after every major update.
           </p>
@@ -241,8 +306,10 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <ShieldCheckIcon className="size-8 text-[rgb(16,44,112)]" />
             <div>
-              <div className="font-semibold">Built for Supabase + Next.js</div>
-              <p className="text-[rgb(75,85,99)]">
+              <div className="font-semibold text-lg">
+                Built for Supabase + Next.js
+              </div>
+              <p className="text-[rgb(75,85,99)] text-base">
                 Framework-aware checks that understand RLS and API routes.
               </p>
             </div>
@@ -250,8 +317,8 @@ export default function Home() {
           <div className="mt-4 flex items-center gap-3">
             <LockClosedIcon className="size-8 text-[rgb(16,44,112)]" />
             <div>
-              <div className="font-semibold">Ship with confidence</div>
-              <p className="text-[rgb(75,85,99)]">
+              <div className="font-semibold text-lg">Ship with confidence</div>
+              <p className="text-[rgb(75,85,99)] text-base">
                 Only release when every route is locked down.
               </p>
             </div>
@@ -265,10 +332,10 @@ export default function Home() {
         className="mx-auto max-w-7xl px-6 py-24"
         data-animate
       >
-        <h2 className="text-3xl font-bold text-center text-[rgb(16,44,112)]">
+        <h2 className="text-4xl sm:text-5xl font-bold text-center text-[rgb(16,44,112)]">
           Automatic Auth & Paywall Testing — Every Time You Ship.
         </h2>
-        <p className="mt-3 text-center text-[rgb(55,65,81)]">
+        <p className="mt-4 text-center text-[rgb(55,65,81)] text-lg sm:text-xl">
           No setup. No jargon. Just clear “this is vulnerable” messages in your
           workflow.
         </p>
@@ -291,61 +358,62 @@ export default function Home() {
               key={f.title}
               className="group rounded-2xl bg-white p-6 shadow-lg ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="text-[rgb(245,158,11)] font-bold">★</div>
-              <h3 className="mt-2 text-lg font-semibold text-[rgb(23,37,84)]">
+              <div className="text-[rgb(245,158,11)] font-bold text-lg">★</div>
+              <h3 className="mt-2 text-xl font-semibold text-[rgb(23,37,84)]">
                 {f.title}
               </h3>
-              <p className="mt-1 text-[rgb(75,85,99)]">{f.desc}</p>
+              <p className="mt-1 text-[rgb(75,85,99)] text-base sm:text-lg">
+                {f.desc}
+              </p>
             </div>
           ))}
         </div>
-        <p className="mt-8 text-center text-[rgb(31,41,55)]">
-          Protecting your app costs $30/month — a fraction of a manual audit.
-        </p>
       </section>
 
-      {/* How it works */}
-      <section id="how" className="mx-auto max-w-5xl px-6 py-24" data-animate>
-        <ol className="space-y-4 text-[rgb(55,65,81)]">
-          <li>1) Install the VS Code extension or GitHub Action.</li>
-          <li>2) Select “Auth & Paywall” mode.</li>
-          <li>3) Ship only when every route is locked down.</li>
-        </ol>
-      </section>
+      {/* Timeline / How it works */}
+      <Box sx={{ width: "80%", mx: "auto", mb: 6 }}>
+        <Stepper alternativeLabel>
+          {steps.map((step, index) => (
+            <Step key={index}>
+              <StepLabel icon={step.icon}>{step.label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
 
-      <section
-        id="testimonials"
-        className="mx-auto max-w-6xl px-6 py-24"
-        data-animate
-      >
-        <div className="grid gap-6 sm:grid-cols-2">
-          <blockquote className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-black/5">
-            <p className="text-[rgb(31,41,55)]">
-              “We caught two missing checks before launch. Worth it.”
-            </p>
-            <footer className="mt-3 text-sm text-[rgb(75,85,99)]">
-              — Nutrichef.app founder
-            </footer>
-          </blockquote>
-          <blockquote className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-black/5">
-            <p className="text-[rgb(31,41,55)]">
-              “It’s like having a mini security review in CI.”
-            </p>
-            <footer className="mt-3 text-sm text-[rgb(75,85,99)]">
-              — Next.js developer
-            </footer>
-          </blockquote>
-        </div>
-      </section>
+        <Box sx={{ mt: 8, mx: "auto", textAlign: "center" }}>
+          {steps.map((step, i) => (
+            <Box key={i} sx={{ mb: 4 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 600,
+                  fontFamily: "'Inter', 'Poppins', 'Roboto', sans-serif",
+                }}
+              >
+                {step.label}
+              </Typography>
+              <Typography
+                color="text.secondary"
+                sx={{
+                  fontFamily: "'Inter', 'Poppins', 'Roboto', sans-serif",
+                  fontSize: "1.125rem", // approx text-lg
+                }}
+              >
+                {step.description}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      </Box>
 
       {/* Footer */}
       <footer className="border-t border-black/5 bg-white">
         <div className="mx-auto max-w-7xl px-6 py-12 grid gap-8 sm:grid-cols-2 items-center">
-          <div className="text-sm text-[rgb(75,85,99)]">
+          <div className="text-sm sm:text-base text-[rgb(75,85,99)]">
             © 2025 Your Company. Auth & paywall protection for Next.js +
             Supabase vibe-coders.
           </div>
-          <nav className="flex justify-center sm:justify-end gap-8 text-sm">
+          <nav className="flex justify-center sm:justify-end gap-8 text-sm sm:text-base">
             <a className="hover:text-[rgb(16,44,112)] transition" href="#">
               About
             </a>
